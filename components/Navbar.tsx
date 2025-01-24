@@ -121,7 +121,9 @@ const Navbar: React.FC = () => {
                 </ListItemButton>
               </Link>
             ))}
-            <Button
+            
+            <Link href="/register" passHref>
+              <Button
               variant="contained"
               sx={{
                 ...linkStyle,
@@ -133,8 +135,9 @@ const Navbar: React.FC = () => {
                 "&:hover": { backgroundColor: isDarkMode ? "#333" : "#ddd" },
               }}
             >
-              Register Now
-            </Button>
+                Register Now
+              </Button>
+            </Link>  
           </Box>
 
           <IconButton onClick={toggleDarkMode} sx={{ color: isDarkMode ? "black" : "white" }}>
@@ -188,10 +191,50 @@ const Navbar: React.FC = () => {
                 </ListItemButton>
               </ListItem>
             ))}
+            <ListItem disablePadding>
+              <ListItemButton
+                onClick={() => {
+                  setSelectedLink("Register Now"); // Set it as selected when clicked
+                  setDrawerOpen(false);
+                }}
+                sx={{
+                  width: "100%", // Full width
+                  display: "flex",
+                  alignItems: "center", // Align icon and text on the same line
+                  gap: 1, // Space between icon and text
+                  "&:hover": {
+                    backgroundColor: isDarkMode ? "#333" : "#f5f5f5",
+                  },
+                }}
+              >
+                <Link href="/register" passHref>
+                  <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
+                    <ListItemIcon
+                      sx={{
+                        color: selectedLink === "Register Now" ? "#FF7251" : isDarkMode ? "white" : "black",
+                      }}
+                    >
+                      <RegisterIcon /> {/* You can replace this with any icon */}
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={
+                        <Typography
+                          sx={{
+                            ...linkStyle,
+                            color: selectedLink === "Register Now" ? "#FF7251" : isDarkMode ? "white" : "black",
+                          }}
+                        >
+                          Register Now
+                        </Typography>
+                      }
+                    />
+                  </Box>
+                </Link>
+              </ListItemButton>
+            </ListItem>
           </List>
         </Box>
-      </Drawer>
-
+    </Drawer>
     </>
   );
 };
