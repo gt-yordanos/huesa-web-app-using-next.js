@@ -27,6 +27,7 @@ import {
 } from "@mui/icons-material";
 import { useThemeContext } from "@/contexts/themeContext";
 import Link from "next/link";
+import Image from "next/image";
 
 const Navbar: React.FC = () => {
   const { toggleDarkMode, isDarkMode } = useThemeContext();
@@ -78,7 +79,7 @@ const Navbar: React.FC = () => {
                 width: "100%",
               }}
             >
-              <img
+              <Image
                 src="/huesaLogo.jpg"
                 alt="HUESA Logo"
                 width={isMobile ? "40" : "50"}

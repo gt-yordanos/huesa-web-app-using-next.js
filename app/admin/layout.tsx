@@ -1,22 +1,20 @@
-"use client"
+"use client";
 import * as React from 'react';
 import { extendTheme, styled } from '@mui/material/styles';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import EventIcon from '@mui/icons-material/Event';
-import PeopleIcon from '@mui/icons-material/People'; // Icon for "Members"
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
+import EventIcon from "@mui/icons-material/Event";
+import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
+import PeopleIcon from "@mui/icons-material/People";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { AppProvider, Navigation, Router } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import { PageContainer } from '@toolpad/core/PageContainer';
 import Grid from '@mui/material/Grid2';
-
-const HUESA_LOGO_URL = 'https://path-to-your-logo/huesa-logo.png';
-
+import Image from 'next/image';
 const NAVIGATION: Navigation = [
   {
     kind: 'header',
-    title: 'Huesa', // Simple string for compatibility
+    title: 'Huesa',
   },
   {
     segment: 'dashboard',
@@ -94,14 +92,14 @@ export default function DashboardLayoutBasic(props: any) {
   return (
     <AppProvider
       navigation={NAVIGATION}
-      branding={{
-        logo: <img src={HUESA_LOGO_URL} alt="HUESA logo" />,
-        title: 'HUESA',
-        homeUrl: '/toolpad/core/introduction',
-      }}
       router={router}
       theme={demoTheme}
       window={demoWindow}
+      branding={{
+        logo: <Image src="" alt="HUESA logo" />,
+        title: 'HUESA',
+        homeUrl: '/toolpad/core/introduction',
+      }}
     >
       <DashboardLayout>
         <PageContainer>

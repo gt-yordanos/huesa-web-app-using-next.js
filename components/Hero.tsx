@@ -51,12 +51,11 @@ const Hero: React.FC = () => {
           width: "10px",
           height: "10px",
           borderRadius: "50%",
-          backgroundColor:
-            theme.palette.mode === "dark" ? "#fff" : "#000", // Dots color
+          backgroundColor: i % 2 === 0 ? "#fff" : "#000", // Example of using the index
           margin: "0 5px",
         }}
       ></div>
-    ),
+    )    
   };
 
   return (

@@ -7,6 +7,7 @@ import "./globals.css";
 import { CustomThemeProvider } from "@/contexts/themeContext";
 import Navbar from "@/components/Navbar";
 import { usePathname } from "next/navigation";
+import Footer from "@/components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,6 +34,7 @@ export default function RootLayout({
           {/* Conditionally render Navbar */}
           {!isAdminRoute && <Navbar />}
           <main>{children}</main>
+          {!isAdminRoute && <Footer/>}
         </CustomThemeProvider>
       </body>
     </html>
