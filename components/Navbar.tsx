@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   AppBar,
   Toolbar,
-  Typography,
   IconButton,
   Drawer,
   List,
@@ -13,7 +12,8 @@ import {
   Button,
   useTheme,
   useMediaQuery,
-  ListItemText,
+  Typography,
+  ListItemText
 } from "@mui/material";
 import {
   Menu as MenuIcon,
@@ -26,6 +26,7 @@ import {
   PersonAdd as RegisterIcon,
 } from "@mui/icons-material";
 import { useThemeContext } from "@/contexts/themeContext";
+import Link from "next/link";
 
 const Navbar: React.FC = () => {
   const { toggleDarkMode, isDarkMode } = useThemeContext();
@@ -48,15 +49,18 @@ const Navbar: React.FC = () => {
     fontFamily: "Poppins, sans-serif",
     cursor: "pointer",
     textTransform: "none",
-    borderBottom: "3px solid transparent",
+    textDecoration: "none", // Remove underline
+    display: isMobile ? "block" : "inline-block", // Full width on mobile
+    width: isMobile ? "100%" : "auto", // Full width on mobile
+    padding: isMobile ? "10px 0" : "0", // Add padding for mobile links
+    color: isDarkMode ? "black" : "white", // Set color based on theme
   };
 
   return (
     <>
       <AppBar position="sticky" sx={{ backgroundColor: theme.palette.primary.main }}>
         <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-          {/* Logo and Menu Icon */}
-          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 2, flexGrow: 0 }}>
             <IconButton
               edge="start"
               onClick={() => setDrawerOpen(true)}
@@ -64,26 +68,58 @@ const Navbar: React.FC = () => {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" sx={{ ...linkStyle, color: isDarkMode ? "black" : "white" }}>
-              HUESA
-            </Typography>
+
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: isMobile ? "center" : "flex-start",
+                alignItems: "center",
+                flexGrow: 0,
+                width: "100%",
+              }}
+            >
+              <img
+                src="/huesaLogo.jpg"
+                alt="HUESA Logo"
+                width={isMobile ? "40" : "50"}
+                height={isMobile ? "40" : "50"}
+                style={{
+                  objectFit: "contain",
+                  boxShadow: isMobile && drawerOpen ? "none" : "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                }}
+              />
+            </Box>
           </Box>
 
-          {/* Desktop Navigation Links */}
-          <Box sx={{ display: { xs: "none", sm: "flex" }, gap: 3, alignItems: "center" }}>
+          <Box
+            sx={{
+              display: { xs: "none", sm: "flex" },
+              gap: 3,
+              alignItems: "center",
+              justifyContent: "center",
+              flexGrow: 2,
+            }}
+          >
             {navLinks.map((link) => (
-              <Typography
-                key={link.text}
-                onClick={() => setSelectedLink(link.text)}
-                sx={{
-                  ...linkStyle,
-                  color: isDarkMode ? "black" : "white",
-                  borderBottom: selectedLink === link.text ? "3px solid #FF7251" : "none",
-                  "&:hover": { borderBottom: "3px solid #FF7251" },
-                }}
-              >
-                {link.text}
-              </Typography>
+              <Link href={link.path} key={link.text} passHref>
+                <ListItemButton
+                  sx={{
+                    ...linkStyle,
+                    borderBottom: selectedLink === link.text ? "3px solid #FF7251" : "none",
+                    "&:hover": { borderBottom: "3px solid #FF7251" },
+                  }}
+                  onClick={() => setSelectedLink(link.text)}
+                >
+                  <Typography
+                    sx={{
+                      ...linkStyle,
+                      color: isDarkMode ? "black" : "white",
+                    }}
+                  >
+                    {link.text}
+                  </Typography>
+                </ListItemButton>
+              </Link>
             ))}
             <Button
               variant="contained"
@@ -92,7 +128,8 @@ const Navbar: React.FC = () => {
                 textTransform: "none",
                 backgroundColor: isDarkMode ? "black" : "white",
                 color: isDarkMode ? "white" : "black",
-                px: 2, // Add padding for better alignment
+                px: 2,
+                py: 1,
                 "&:hover": { backgroundColor: isDarkMode ? "#333" : "#ddd" },
               }}
             >
@@ -100,88 +137,61 @@ const Navbar: React.FC = () => {
             </Button>
           </Box>
 
-          {/* Dark Mode Toggle */}
           <IconButton onClick={toggleDarkMode} sx={{ color: isDarkMode ? "black" : "white" }}>
             {isDarkMode ? <Brightness7Icon /> : <DarkModeIcon />}
           </IconButton>
         </Toolbar>
       </AppBar>
-
-      {/* Mobile Menu Drawer */}
       <Drawer anchor="left" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
         <Box sx={{ width: 250 }}>
           <List>
             {navLinks.map((link) => (
               <ListItem key={link.text} disablePadding>
                 <ListItemButton
-                  onClick={() => setSelectedLink(link.text)}
+                  onClick={() => {
+                    setSelectedLink(link.text);
+                    setDrawerOpen(false);
+                  }}
                   sx={{
+                    width: "100%", // Full width
+                    display: "flex",
+                    alignItems: "center", // Align icon and text on the same line
+                    gap: 1, // Space between icon and text
                     "&:hover": {
                       backgroundColor: isDarkMode ? "#333" : "#f5f5f5",
                     },
                   }}
                 >
-                  <ListItemIcon
-                    sx={{
-                      color: selectedLink === link.text ? "#FF7251" : isDarkMode ? "white" : "black",
-                    }}
-                  >
-                    {link.icon}
-                  </ListItemIcon>
-                  <ListItemText
-  primary={
-    <Typography
-      sx={{
-        ...linkStyle,
-        color: selectedLink === link.text ? "#FF7251" : isDarkMode ? "white" : "black",
-        fontFamily: "Poppins, sans-serif",  // Explicitly set the font family
-        fontWeight: "bold",  // Explicitly set the font weight to bold
-      }}
-    >
-      {link.text}
-    </Typography>
-  }
-/>
-
+                  <Link href={link.path} passHref>
+                    <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
+                      <ListItemIcon
+                        sx={{
+                          color: selectedLink === link.text ? "#FF7251" : isDarkMode ? "white" : "black",
+                        }}
+                      >
+                        {link.icon}
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={
+                          <Typography
+                            sx={{
+                              ...linkStyle,
+                              color: selectedLink === link.text ? "#FF7251" : isDarkMode ? "white" : "black",
+                            }}
+                          >
+                            {link.text}
+                          </Typography>
+                        }
+                      />
+                    </Box>
+                  </Link>
                 </ListItemButton>
               </ListItem>
             ))}
-            
-            <ListItem disablePadding>
-              <ListItemButton
-                onClick={() => setSelectedLink("Register Now")}
-                sx={{
-                  "&:hover": {
-                    backgroundColor: isDarkMode ? "#333" : "#f5f5f5",
-                  },
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    color:
-                      selectedLink === "Register Now" ? "#FF7251" : isDarkMode ? "white" : "black",
-                  }}
-                >
-                  <RegisterIcon />
-                </ListItemIcon>
-                <ListItemText
-                  primary={
-                    <Typography
-                      sx={{
-                        ...linkStyle,
-                        color: selectedLink === "Register Now" ? "#FF7251" : isDarkMode ? "white" : "black",
-                      }}
-                    >
-                      Register Now
-                    </Typography>
-                  }
-                />
-              </ListItemButton>
-            </ListItem>
-
           </List>
         </Box>
       </Drawer>
+
     </>
   );
 };
