@@ -83,10 +83,6 @@ const Navbar: React.FC = () => {
                 alt="HUESA Logo"
                 width={isMobile ? "40" : "50"}
                 height={isMobile ? "40" : "50"}
-                style={{
-                  objectFit: "contain",
-                  boxShadow: isMobile && drawerOpen ? "none" : "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                }}
               />
             </Box>
           </Box>
