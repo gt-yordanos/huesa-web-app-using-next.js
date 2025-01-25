@@ -7,7 +7,7 @@ const EventSchema = new Schema({
   location: { type: String, required: true },
   attendees: [{
     type: String,
-    enum: ['Huesa Members', 'Economics Students', 'Accounting Students', 'Management Students', 'PADM Students', 'Any one'],
+    enum: ['Huesa Members', 'Economics Students', 'Accounting Students', 'Management Students', 'PADM Students', 'Cooperative Students', 'Any one'],
     required: true,
   }],
 });
