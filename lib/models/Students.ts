@@ -18,7 +18,7 @@ const StudentSchema = new Schema({
     required: true,
   },
   year: { type: String, required: true },
-  sex: { type: String, enum: ['Male', 'Female', 'Other'], required: true },
+  sex: { type: String, enum: ['Male', 'Female'], required: true },
   focusArea: {
     type: String,
     enum: [
@@ -28,6 +28,7 @@ const StudentSchema = new Schema({
       'Research',
       'Membership',
       'Event Planning',
+      'other',
     ],
     required: true,
   },
